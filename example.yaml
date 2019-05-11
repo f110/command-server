@@ -1,0 +1,6 @@
+port: 7500
+commands:
+  - name: test
+    command: ["yes"]
+  - name: echo
+    command: ["echo", "OK"]

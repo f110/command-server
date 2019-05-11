@@ -1,0 +1,12 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "go_default_library",
+    srcs = [
+        "command.go",
+        "writer.go",
+    ],
+    importpath = "github.com/f110/command-server/pkg/server",
+    visibility = ["//visibility:public"],
+    deps = ["//pkg/config:go_default_library"],
+)
