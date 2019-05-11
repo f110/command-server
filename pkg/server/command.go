@@ -54,13 +54,14 @@ func NewCommandServer(commands []config.Command) *CommandServer {
 		}
 		m[v.Name] = &command{Def: v, Exclusion: v.Exclusion}
 	}
-	s := &CommandServer{commands: m, Status: make(map[int]*status)}
+	s := &CommandServer{commands: m, Status: make(map[int]*status), crawlerInterval: 10 * time.Minute}
 
 	mux := http.NewServeMux()
 	mux.HandleFunc("/new", s.newCommand)
 	mux.HandleFunc("/status/", s.status)
 	s.mux = mux
 
+	go s.crawler(context.Background())
 	return s
 }
 
