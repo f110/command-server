@@ -59,6 +59,7 @@ func NewCommandServer(commands []config.Command) *CommandServer {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/new", s.newCommand)
 	mux.HandleFunc("/status/", s.status)
+	mux.HandleFunc("/", http.NotFound)
 	s.mux = mux
 
 	go s.crawler(context.Background())
@@ -104,10 +105,6 @@ func (cs *CommandServer) status(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 	s := strings.Split(req.URL.Path, "/")
-	if len(s) < 2 {
-		w.WriteHeader(http.StatusBadRequest)
-		return
-	}
 	id, err := strconv.Atoi(s[2])
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
